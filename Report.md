@@ -62,7 +62,7 @@ barplot(percentage)
 ##values, we need to remove those predictors with near zero variance functions
 x<-nearZeroVar(training1)
 training1<-training1[,-x]
-
+training1<-training1[,-c(1:7)]
  ##Because my computer can not handle the sample size of training set, I had to cut the size down to 3000 rows
    training2<-training1[sample(nrow(training1), 3000), ]
    
@@ -75,27 +75,32 @@ testingSet<-training2[-inTrain,]
 ```
 
     
-## Build models with random forest, classfication tree, and gradient boosting machine, and use the models to predict the testing set
+## Build models with random forest, classfication tree, and use the models to predict the testing set
    
     set.seed(781)
     Model_rf<-train(classe~.,data = trainingSet, method="rf")
     Model_cart<-rpart(classe~., data=trainingSet, method="class")
-    Model_gbm<-train(classe~., data=trainingSet, method="gbm",verbose=F)
-
+   
     
     fancyRpartPlot(Model_cart)
  ![Tree](https://github.com/FabioYyc/PML-final-project/blob/master/Tree.png)
     
     prediction_rf<-predict(Model_rf, newdata=testingSet)
     prediction_cart<-predict(Model_cart,newdata = testingSet)
-    prediction_gbm<-predict(Model_gbm, newdata=testingSet)
+   
     
 ## Find the accuracy of the prediction models
     rf_acc<-confusionMatrix(prediction_rf, testingSet$classe)$overall[1]
-    cart_acc<-confusionMatrix(prediction_cart,testingSet$classe)$overall[1]
-    gbm_acc<-confusionMatrix(prediction_gbm, testingSet$classe)$overall[1]
+   
+
     
 
 
 random forest method here seems to have the highest accuracy(~99%), hence select this model to predict validation set
 
+    quiz <-quiz[,colSums(is.na(quiz)) == 0]
+    y<-nearZeroVar(quiz)
+    quiz<-quiz[-y,]
+    quiz<-quiz[,-c(1:7)]
+    result<-predict(Model_rf, newdata=quiz)
+    result
