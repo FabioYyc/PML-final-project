@@ -17,12 +17,22 @@ Class A corresponds to the specified execution of the exercise, while the other 
 
 # How the model is built
 
-## Loading the files
+## Loading the files and needed pacakges
 The validation dataset were named as quiz
-
+```
+install.packages("caret")
+install.packages("randomForest")
+install.packages("e1071")
+install.packages("rpart")
+library(caret)
+library(randomForest)
+library(e1071)
+library(rpart)
+    
     training<-read.csv("https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv")
     quiz<-read.csv("https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv")
-
+  
+```
 ## cleaning the dataset and create training and testing set
 the columns with no values or very few values are removed, then create training and testing set 
 
@@ -43,8 +53,11 @@ cbind(freq=table(training1$classe), percentage=percentage)
 # D 3216   16.38977
 # E 3607   18.38243
 barplot(percentage)
+```
+![bar plot](https://github.com/FabioYyc/PML-final-project/blob/master/Rplot.png)
 
 
+```
 ##After removing variables which all the values are NAs, we still find many variables has very few
 ##values, we need to remove those predictors with near zero variance functions
 x<-nearZeroVar(training1)
@@ -61,9 +74,13 @@ testingSet<-training1[-inTrain,]
    
     set.seed(781)
     Model_rf<-train(classe~.,data = trainingSet, method="rf")
-    Model_cart<-train(classe~., data=trainingSet, method="rpart")
+    Model_cart<-rpart(classe~., data=trainingSet, method="class")
     Model_gbm<-train(classe~., data=trainingSet, method="gbm",verbose=F)
 
+    
+    fancyRpartPlot(Model_cart)
+ ![Tree](https://github.com/FabioYyc/PML-final-project/blob/master/Tree.png)
+    
     prediction_rf<-predict(Model_rf, newdata=testingSet)
     prediction_cart<-predict(Model_cart,newdata = testingSet)
     prediction_gbm<-predict(Model_gbm, newdata=testingSet)
@@ -79,5 +96,6 @@ testingSet<-training1[-inTrain,]
 random forest method here seems to have the highest accuracy, hence select this model to predict validation set
 
 ##use random forest model for predicting final results 
-    result<-predict(Model_rf, newdata=quiz)
+   ```
+   result<-predict(Model_rf, newdata=quiz)
     result
