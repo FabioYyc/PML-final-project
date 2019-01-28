@@ -95,12 +95,7 @@ testingSet<-training2[-inTrain,]
     cart_acc<-confusionMatrix(prediction_cart,testingSet$classe)$overall[1]
     gbm_acc<-confusionMatrix(prediction_gbm, testingSet$classe)$overall[1]
     
-    ##visualize the accuracy
-    barplot(rf_acc,cart_acc, gbm_acc)
 
-random forest method here seems to have the highest accuracy, hence select this model to predict validation set
 
-##use random forest model for predicting final results 
-   ```
-   result<-predict(Model_rf, newdata=quiz)
-    result
+random forest method here seems to have the highest accuracy(~99%), hence select this model to predict validation set
+
