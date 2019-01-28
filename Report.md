@@ -60,9 +60,10 @@ barplot(percentage)
 ```
 ##After removing variables which all the values are NAs, we still find many variables has very few
 ##values, we need to remove those predictors with near zero variance functions
+##remove the columns are not related to making predictions
+training1<-training1[,-c(1:7)]
 x<-nearZeroVar(training1)
 training1<-training1[,-x]
-training1<-training1[,-c(1:7)]
  ##Because my computer can not handle the sample size of training set, I had to cut the size down to 3000 rows
    training2<-training1[sample(nrow(training1), 3000), ]
    
@@ -97,10 +98,12 @@ testingSet<-training2[-inTrain,]
 
 
 random forest method here seems to have the highest accuracy(~99%), hence select this model to predict validation set
-
+ 
+    ##process the validation data the same way for better results
     quiz <-quiz[,colSums(is.na(quiz)) == 0]
+    quiz<-quiz[,-c(1:7)]
     y<-nearZeroVar(quiz)
     quiz<-quiz[-y,]
-    quiz<-quiz[,-c(1:7)]
+    
     result<-predict(Model_rf, newdata=quiz)
-    result
+  
