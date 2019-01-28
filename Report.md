@@ -63,13 +63,18 @@ barplot(percentage)
 x<-nearZeroVar(training1)
 training1<-training1[,-x]
 
+ ##Because my computer can not handle the sample size of training set, I had to cut the size down to 3000 rows
+   training2<-training1[sample(nrow(training1), 3000), ]
+   
+   
 ##Create training set(70%) and testing set(30%)
 inTrain<-createDataPartition(training1$classe, p=0.7, list = F)
-trainingSet<-training1[inTrain,]
-testingSet<-training1[-inTrain,]
+trainingSet<-training2[inTrain,]
+testingSet<-training2[-inTrain,]
 
 ```
 
+    
 ## Build models with random forest, classfication tree, and gradient boosting machine, and use the models to predict the testing set
    
     set.seed(781)
