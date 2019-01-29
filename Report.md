@@ -115,3 +115,7 @@ random forest method here seems to have the highest accuracy, hence select this 
     result
     ## [1] B A A A A E D D A A B C B A E E A B A B
     ##Levels: A B C D E
+
+## Out of sample error
+Out of sample error of the model =1- accuracy =1 -0.93 =0.07=7%
+However, due to small sample size for training the model, the error will be larger 
