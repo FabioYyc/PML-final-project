@@ -90,7 +90,7 @@ testingSet<-training2[-inTrain,]
  ![Tree](https://github.com/FabioYyc/PML-final-project/blob/master/Tree.png)
     
     prediction_rf<-predict(Model_rf, newdata=testingSet)
-    prediction_cart<-predict(Model_cart,newdata = testingSet)
+    prediction_cart<-predict(Model_cart,newdata = testingSet, type="class")
    
     
 ## Find the accuracy of the prediction models
