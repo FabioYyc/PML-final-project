@@ -91,19 +91,22 @@ testingSet<-training2[-inTrain,]
    
     
 ## Find the accuracy of the prediction models
-    rf_acc<-confusionMatrix(prediction_rf, testingSet$classe)$overall[1]
+    confusionMatrix(prediction_rf, testingSet$classe)$overall[1]
+    ## Accuracy 
+     0.9317269 
    
 
     
 
 
-random forest method here seems to have the highest accuracy(~99%), hence select this model to predict validation set
+random forest method here seems to have the highest accuracy, hence select this model to predict validation set
  
     ##process the validation data the same way for better results
     quiz <-quiz[,colSums(is.na(quiz)) == 0]
     quiz<-quiz[,-c(1:7)]
-    y<-nearZeroVar(quiz)
-    quiz<-quiz[-y,]
+  
     
     result<-predict(Model_rf, newdata=quiz)
-  
+    result
+    ## [1] B A A A A E D D A A B C B A E E A B A B
+    ##Levels: A B C D E
