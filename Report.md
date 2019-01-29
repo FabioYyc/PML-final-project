@@ -57,19 +57,22 @@ barplot(percentage)
 ![bar plot](https://github.com/FabioYyc/PML-final-project/blob/master/Rplot.png)
 
 
+## Further processing of the dataset
+After removing variables which all the values are NAs, we still find many variables has very few
+values, we need to remove those predictors with near zero variance functions
+remove the columns are not related to making predictions
+*The training set was sampled down to to 2000 rows because the computing power of my pc
+
 ```
-##After removing variables which all the values are NAs, we still find many variables has very few
-##values, we need to remove those predictors with near zero variance functions
-##remove the columns are not related to making predictions
 training1<-training1[,-c(1:7)]
 x<-nearZeroVar(training1)
 training1<-training1[,-x]
  ##Because my computer can not handle the sample size of training set, I had to cut the size down to 3000 rows
-   training2<-training1[sample(nrow(training1), 3000), ]
+   training2<-training1[sample(nrow(training1), 2000), ]
    
    
 ##Create training set(70%) and testing set(30%)
-inTrain<-createDataPartition(training1$classe, p=0.7, list = F)
+inTrain<-createDataPartition(training1$classe, p=0.75, list = F)
 trainingSet<-training2[inTrain,]
 testingSet<-training2[-inTrain,]
 
