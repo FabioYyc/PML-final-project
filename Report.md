@@ -94,7 +94,9 @@ testingSet<-training2[-inTrain,]
     confusionMatrix(prediction_rf, testingSet$classe)$overall[1]
     ## Accuracy 
      0.9317269 
-   
+     
+     sum(prediction_cart==testingSet$classe)/length(testingSet$classe)
+    ##0.6646586
 
     
 
